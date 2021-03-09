@@ -49,17 +49,17 @@ fi
 iso_datetime=$(date --iso-8601=seconds)
 
 
-current_pubic_ip_address=$(dig @ns1-1.akamaitech.net ANY whoami.akamai.net +short)
+current_public_ip_address=$(dig @ns1-1.akamaitech.net ANY whoami.akamai.net +short | grep -v "#")
 
 if [ $debug_flag ]; then
 
 	        echo "iso_datetime=${iso_datetime}"
 
-		printf "Current public IP address (from DNS lookup) is ${current_pubic_ip_address}\n"
+		printf "Current public IP address (from DNS lookup) is ${current_public_ip_address}\n"
 
 fi
 
-if [ "${current_pubic_ip_address}" != "${previous_public_ip}" ]; then
+if [ "${current_public_ip_address}" != "${previous_public_ip}" ]; then
 
 
 	if [ ! -e ${output_directory}/${output_log} ]; then
@@ -68,20 +68,38 @@ if [ "${current_pubic_ip_address}" != "${previous_public_ip}" ]; then
 		first_run=true
 
 	else
-		printf "$(tail -n 10 ${output_directory}/${output_log})" > ${output_directory}/${output_log} 
+		printf "$(tail -n 10 ${output_directory}/${output_log})\n" > ${output_directory}/${output_log} 
 
 	fi
 
+	if printf "${current_public_ip_address}" | grep -qP '([0-9]{1,3}\.){3}[0-9]{1,3}'; then
+        
+		printf "${current_public_ip_address}\n" > ${output_directory}/${output_file}
+		printf "${iso_datetime} - ${current_public_ip_address}\n" >> ${output_directory}/${output_log}
 
-        printf "${current_pubic_ip_address}\n" > ${output_directory}/${output_file}
-	printf "${iso_datetime} ${current_pubic_ip_address}\n" >> ${output_directory}/${output_log}
+	
+
+	
+		if [ $debug_flag ]; then
+
+		
+			printf "Current and previous IP address do not match. Written details to ${output_directory}/${output_file} and ${output_directory}/${output_log}\n"
+
+	
+		fi
+
+	else
+	
+		printf "${iso_datetime} - FAILED_TO_GET_CURRENT_PUBLIC_IP\n" >> ${output_directory}/${output_log}
 
 
-	if [ $debug_flag ]; then
+		if [ $debug_flag ]; then
 
-		printf "Current and previous IP address do not match. Written details to ${output_directory}/${output_file} and ${output_directory}/${output_log}\n"
+			printf "Failed to get current public IP address. Failure has been noted in log but current IP address file has not been updated\n"
 
+		fi
 	fi
+
 else
 
 	if [ $debug_flag ]; then
