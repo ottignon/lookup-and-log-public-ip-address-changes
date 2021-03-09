@@ -10,7 +10,7 @@ previous_public_ip=""
 first_run=false
 debug_flag=""
 
-if [ "$@" = "--debug" ]; then
+if [ "$1" = "--debug" ]; then
 
 	debug_flag=true
 
