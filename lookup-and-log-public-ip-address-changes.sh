@@ -4,7 +4,7 @@
 # future version sort debug options and give choice lookup options
 
 output_directory="/tmp/lookup-and-log-public-ip-address-changes"
-output_file="current_pubic_ip_address.txt"
+output_file="current_public_ip_address.txt"
 output_log="public_ip_address_changes.log"
 previous_public_ip=""
 first_run=false
