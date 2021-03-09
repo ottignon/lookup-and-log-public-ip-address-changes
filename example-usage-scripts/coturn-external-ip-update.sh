@@ -106,8 +106,13 @@ if [ ${coturn_configured_external_ip} ] && [ ${reported_external_ip} ] && [ ${co
 			fi
 		else
 			if [ $debug_flag ]; then
-				printf "Coturn not running so did not restart\n"
+				printf "Coturn running but script configured to not restart running process\n"
 			fi
+		fi
+	else
+		if [ $debug_flag ]; then
+
+			printf "Coturn not running so did not restart\n"
 		fi
 	fi
 else
