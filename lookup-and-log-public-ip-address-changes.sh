@@ -1,7 +1,7 @@
 #/bin/bash
-# rottignon 09/02/2021
-# version 0.1
-# future version sort debug with out goig to print array
+# rottignon 09/03/2021
+# version 0.2
+# future version sort debug options and give choice lookup options
 
 output_directory="/tmp/lookup-and-log-public-ip-address-changes"
 output_file="current_pubic_ip_address.txt"
