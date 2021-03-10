@@ -94,7 +94,7 @@ if [ ${coturn_configured_external_ip} ] && [ ${reported_external_ip} ] && [ ${co
 	fi
 
 
-	if pgrep -x coturn > /dev/null; then
+	if pgrep -x turnserver > /dev/null; then
 
 		if [ ${restart_coturn_on_update} ]; then
 
